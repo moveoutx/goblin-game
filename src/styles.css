@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23ff6b6b" d="M16 2L2 16l4 4 10-10 10 10 4-4z"/><path fill="%23cc0000" d="M16 2L2 16l4 4 10-10"/></svg>'), auto;
+}
+
+.game-container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.score {
+    color: #27ae60;
+}
+
+.misses {
+    color: #e74c3c;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 10px;
+    margin: 0 auto 2rem;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(145deg, #ecf0f1, #bdc3c7);
+    border: 3px solid #34495e;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.cell:hover {
+    background: linear-gradient(145deg, #d5dbdb, #a6acaf);
+    transform: scale(1.05);
+}
+
+.cell:active {
+    transform: scale(0.95);
+}
+
+.goblin {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.goblin.visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0% { transform: scale(0.5); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.instructions {
+    margin-bottom: 1rem;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.game-over {
+    background: rgba(231, 76, 60, 0.9);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
+.game-over h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.game-over button {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.game-over button:hover {
+    background: #34495e;
+    transform: scale(1.05);
+}
+
+/* Анимация для попадания */
+@keyframes hit {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.cell.hit {
+    animation: hit 0.3s ease;
+}
