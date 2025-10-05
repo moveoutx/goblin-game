@@ -12,6 +12,7 @@ export class Game {
         this.missedCount = 0;
         this.maxMissed = 5;
         this.currentGoblinTimeout = null;
+        this.currentGoblinCell = null; // Добавляем для отслеживания текущей ячейки гоблина
     }
 
     init() {
@@ -51,16 +52,17 @@ export class Game {
     spawnGoblin() {
         const randomCell = this.board.getRandomCell();
         this.goblin.showInCell(randomCell);
+        this.currentGoblinCell = randomCell; // Запоминаем ячейку где появился гоблин
 
         if (this.currentGoblinTimeout) {
             clearTimeout(this.currentGoblinTimeout);
         }
 
-        // Простая логика: через 1 секунду всегда считаем промахом
         this.currentGoblinTimeout = setTimeout(() => {
-            if (this.isRunning) {
+            // Проверяем, что гоблин все еще в той же ячейке (не был убит)
+            if (this.goblin.currentCell === this.currentGoblinCell && this.isRunning) {
                 this.goblin.hide();
-                this.onMiss(); // Всегда промах при автоматическом исчезновении
+                this.onMiss(); // Промах при автоматическом исчезновении гоблина
             }
         }, 1000);
     }
@@ -70,6 +72,7 @@ export class Game {
         this.goblin.hide();
         this.missedCount = 0;
         this.scoreManager.updateMisses(this.missedCount);
+        this.currentGoblinCell = null; // Сбрасываем ячейку при попадании
 
         if (this.currentGoblinTimeout) {
             clearTimeout(this.currentGoblinTimeout);
@@ -102,6 +105,7 @@ export class Game {
     restart() {
         this.goblin.hide();
         clearInterval(this.gameInterval);
+        this.currentGoblinCell = null;
 
         if (this.currentGoblinTimeout) {
             clearTimeout(this.currentGoblinTimeout);
@@ -111,4 +115,3 @@ export class Game {
         this.start();
     }
 }
-
