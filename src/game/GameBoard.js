@@ -25,11 +25,16 @@ export class GameBoard {
     }
 
     clearAllGoblins() {
-        this.cells.forEach(cell => {
-            const goblin = cell.querySelector('.goblin');
-            if (goblin) {
-                goblin.remove();
-            }
+        const allGoblins = this.element.querySelectorAll('.goblin');
+        allGoblins.forEach(goblin => {
+            goblin.remove();
         });
+    }
+
+    clearGoblin() {
+        const goblin = this.element.querySelector('.goblin');
+        if (goblin) {
+            goblin.remove();
+        }
     }
 }

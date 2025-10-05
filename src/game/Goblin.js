@@ -23,7 +23,7 @@ export class Goblin {
     }
 
     hide() {
-        if (this.currentCell && this.element.parentNode) {
+        if (this.element && this.element.parentNode) {
             this.element.classList.remove('visible');
             this.element.remove();
             this.currentCell = null;
@@ -31,6 +31,6 @@ export class Goblin {
     }
 
     isVisible() {
-        return this.currentCell !== null;
+        return this.currentCell !== null && this.element.parentNode !== null;
     }
 }

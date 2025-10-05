@@ -11,6 +11,7 @@ export class Game {
         this.gameInterval = null;
         this.missedCount = 0;
         this.maxMissed = 5;
+        this.currentGoblinTimeout = null;
     }
 
     init() {
@@ -25,8 +26,6 @@ export class Game {
             cell.addEventListener('click', (e) => {
                 if (this.isRunning && this.goblin.currentCell === cell) {
                     this.onGoblinHit();
-                } else {
-                    this.onMiss();
                 }
             });
         });
@@ -49,8 +48,12 @@ export class Game {
         const randomCell = this.board.getRandomCell();
         this.goblin.showInCell(randomCell);
 
-        setTimeout(() => {
-            if (this.goblin.currentCell === randomCell && this.isRunning) {
+        if (this.currentGoblinTimeout) {
+            clearTimeout(this.currentGoblinTimeout);
+        }
+
+        this.currentGoblinTimeout = setTimeout(() => {
+            if (this.goblin.isVisible() && this.isRunning) {
                 this.goblin.hide();
                 this.onMiss();
             }
@@ -62,6 +65,11 @@ export class Game {
         this.goblin.hide();
         this.missedCount = 0;
         this.scoreManager.updateMisses(0);
+
+        if (this.currentGoblinTimeout) {
+            clearTimeout(this.currentGoblinTimeout);
+            this.currentGoblinTimeout = null;
+        }
     }
 
     onMiss() {
@@ -76,6 +84,12 @@ export class Game {
     gameOver() {
         this.isRunning = false;
         clearInterval(this.gameInterval);
+
+        if (this.currentGoblinTimeout) {
+            clearTimeout(this.currentGoblinTimeout);
+            this.currentGoblinTimeout = null;
+        }
+
         this.goblin.hide();
         this.scoreManager.showGameOver();
     }
@@ -83,6 +97,12 @@ export class Game {
     restart() {
         this.goblin.hide();
         clearInterval(this.gameInterval);
+
+        if (this.currentGoblinTimeout) {
+            clearTimeout(this.currentGoblinTimeout);
+            this.currentGoblinTimeout = null;
+        }
+
         this.start();
     }
 }
