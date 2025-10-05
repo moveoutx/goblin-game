@@ -24,8 +24,12 @@ export class Game {
     bindEvents() {
         this.board.cells.forEach(cell => {
             cell.addEventListener('click', (e) => {
-                if (this.isRunning && this.goblin.currentCell === cell) {
+                if (!this.isRunning) return;
+
+                if (this.goblin.currentCell === cell) {
                     this.onGoblinHit();
+                } else {
+                    this.onMiss(); // Промах при клике по пустой ячейке
                 }
             });
         });
@@ -52,10 +56,11 @@ export class Game {
             clearTimeout(this.currentGoblinTimeout);
         }
 
+        // Простая логика: через 1 секунду всегда считаем промахом
         this.currentGoblinTimeout = setTimeout(() => {
-            if (this.goblin.isVisible() && this.isRunning) {
+            if (this.isRunning) {
                 this.goblin.hide();
-                this.onMiss();
+                this.onMiss(); // Всегда промах при автоматическом исчезновении
             }
         }, 1000);
     }
@@ -64,7 +69,7 @@ export class Game {
         this.scoreManager.addScore(1);
         this.goblin.hide();
         this.missedCount = 0;
-        this.scoreManager.updateMisses(0);
+        this.scoreManager.updateMisses(this.missedCount);
 
         if (this.currentGoblinTimeout) {
             clearTimeout(this.currentGoblinTimeout);

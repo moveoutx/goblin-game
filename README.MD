@@ -1,9 +1,9 @@
 # Goblin Whacking Game 🎯
 
-![Deploy to GitHub Pages](https://github.com/your-username/goblin-game/workflows/Deploy%20to%20GitHub%20Pages/badge.svg)
+![Deploy to GitHub Pages](https://github.com/moveoutx/goblin-game/workflows/Deploy%20to%20GitHub%20Pages/badge.svg)
 
 ## 🎮 Live Demo
-[Play the Game](https://your-username.github.io/goblin-game/)
+[Play the Game](https://moveoutx.github.io/goblin-game/)
 
 ## 🚀 Local Development
 ```bash
